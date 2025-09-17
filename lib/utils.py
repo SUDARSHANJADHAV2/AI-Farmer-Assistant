@@ -43,7 +43,7 @@ class ImageProcessor:
             
             # Apply enhancements if requested
             if enhance:
-                image = self._enhance_image(image)
+                self._enhance_image(image)
             
             # Resize image
             image = image.resize(self.target_size, Image.LANCZOS)

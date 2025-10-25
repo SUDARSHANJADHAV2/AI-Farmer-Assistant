@@ -1,106 +1,71 @@
-# 🌾 KrushiAI - Crop Recommendation System 🌾
+# KrushiAI — AI Crop Recommendation System
 
-Welcome to the **KrushiAI Crop Recommendation System**! This intelligent web application is a key component of my final year mega project, **"KrushiAI - AI Based Plant Diseases Identification, Crop & Fertilizer Recommendation"**. This tool leverages Machine Learning to help farmers make informed decisions by recommending the most suitable crop to plant based on various soil and environmental factors.
+A simple Flask web app that recommends the most suitable crop based on soil and climate parameters using a pre-trained RandomForest model.
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://krushiai-crop-recommendation-system.streamlit.app/)
+## Tech stack
+- Python + Flask backend
+- scikit-learn model (`RandomForest.pkl`)
+- Vanilla HTML/CSS/JS frontend
 
-## 🚀 Live Demo
+## Quick start
 
-You can access the live application here:
-[https://krushiai-crop-recommendation-system.streamlit.app/](https://krushiai-crop-recommendation-system.streamlit.app/)
+1) Create a virtual environment (Windows PowerShell):
 
-## ✨ Features
+   - Python 3.14 (via py launcher):
+     py -3.14 -m venv .venv
 
--   **User-Friendly Interface**: A simple and intuitive web interface built with Streamlit.
--   **Real-time Predictions**: Get instant crop recommendations based on your input.
--   **Data-Driven Insights**: The recommendations are powered by a robust Random Forest model.
--   **Informative**: Provides details about the recommended crop.
--   **Interactive Visualizations**: Shows a chart of the input parameters.
+   - Or with the default python:
+     python -m venv .venv
 
-## ⚙️ How It Works
+2) Install dependencies:
 
-The application follows a simple workflow:
-1.  The user enters soil parameters (Nitrogen, Phosphorus, Potassium, and pH) and environmental factors (Temperature, Humidity, and Rainfall).
-2.  These inputs are fed into a pre-trained Random Forest model.
-3.  The model processes the data and predicts the most suitable crop.
-4.  The recommended crop is displayed to the user along with some information about it.
+   .venv\Scripts\python -m pip install -U pip
+   .venv\Scripts\python -m pip install -r requirements.txt
 
-## 🛠️ Tech Stack
+3) Run the app:
 
-This project is built using the following technologies:
+   .venv\Scripts\python app.py
 
--   **Python**: The core programming language.
--   **Pandas & NumPy**: For data manipulation and numerical operations.
--   **Scikit-learn**: For building and evaluating machine learning models.
--   **Streamlit**: For creating and deploying the web application.
--   **Matplotlib & Seaborn**: For data visualization.
--   **Jupyter Notebook**: For model development and experimentation.
+The app starts on http://localhost:5000 (configurable via env vars below).
 
-## 📊 Dataset
+## Configuration
+- HOST: default 0.0.0.0
+- PORT: default 5000
+- FLASK_DEBUG: set to "true" to enable debug mode
 
-The model was trained on the `Crop_recommendation.csv` dataset, which contains 2200 data points. The dataset has the following 8 columns:
--   `N`: Nitrogen content in soil
--   `P`: Phosphorus content in soil
--   `K`: Potassium content in soil
--   `temperature`: Temperature in Celsius
--   `humidity`: Relative humidity in %
--   `ph`: pH value of the soil
--   `rainfall`: Rainfall in mm
--   `label`: The recommended crop (22 unique crop types)
+Example (PowerShell):
 
-## 🧠 Model Training & Evaluation
+   $env:PORT = "8080"
+   $env:FLASK_DEBUG = "false"
+   .venv\Scripts\python app.py
 
-Several machine learning models were trained and evaluated to find the best one for this task. The models included:
--   Decision Tree
--   Gaussian Naive Bayes
--   Support Vector Machine (SVM)
--   Logistic Regression
--   **Random Forest**
--   XGBoost
--   K-Nearest Neighbors (KNN)
+## API
+- POST /predict
+  JSON body:
+  {
+    "nitrogen": 50,
+    "phosphorus": 50,
+    "potassium": 50,
+    "temperature": 25,
+    "humidity": 60,
+    "ph": 6.5,
+    "rainfall": 100
+  }
 
-The Random Forest model was chosen for the final application due to its high accuracy of **99.5%** on the test set.
+  Response:
+  {
+    "prediction": "mango",
+    "info": "..."
+  }
 
-<!-- You can add your model accuracy comparison image here -->
+- GET /health -> { "status": "ok" }
 
-## 🚀 How to Run Locally
+## Development notes
+- Static files are served directly: `index.html`, `style.css`, `script.js`.
+- The model is loaded from `RandomForest.pkl` at startup.
+- If a `LabelEncoder.pkl` is present, it will be used to map integer predictions back to labels; otherwise, a fallback alphabetical mapping is used.
 
-To run this project on your local machine, follow these steps:
-
-1.  **Clone the repository:**
-    ```sh
-    git clone https://github.com/PRINCE-GUPTA-101/AI-Crop-Recommendation-System.git
-    cd AI-Crop-Recommendation-System
-    ```
-
-2.  **Create a virtual environment (recommended):**
-    ```sh
-    python -m venv venv
-    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-    ```
-
-3.  **Install the dependencies:**
-    ```sh
-    pip install -r requirements.txt
-    ```
-
-4.  **Run the Streamlit application:**
-    ```sh
-    streamlit run webapp.py
-    ```
-
-The application will then be available at `http://localhost:8501`.
-
-## 🌟 Future Scope
-
--   Integrate with real-time weather APIs to automatically fetch climate data.
--   Add a fertilizer recommendation feature.
--   Include a plant disease identification module as part of the larger KrushiAI project.
--   Improve the user interface and add more visualizations.
-
-## 🙏 Acknowledgements
-
-A big thank you to the open-source community for providing the tools and libraries that made this project possible.
-
----
-*This README was generated with the help of an AI assistant.*
+## Troubleshooting
+- If you see a warning about "feature names" from scikit-learn during prediction, it is suppressed by default and can be safely ignored.
+- Ensure `RandomForest.pkl` and `crop_info.json` are present in the project root.
+- If ports conflict, set `$env:PORT` to another value.

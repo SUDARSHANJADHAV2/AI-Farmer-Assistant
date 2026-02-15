@@ -19,7 +19,7 @@ Smart Farming Assistant is an innovative solution that uses advanced technology 
 
 - [IEEE : Smart Crop Recommendation System with Plant Disease Identification](https://ieeexplore.ieee.org/document/10738975)
 
-- You can view the research paper directly here : [View Paper](https://github.com/SUDARSHANJADHAV2/Mega-Project/blob/main/IEEE_Paper_Smart_Crop_Recommendation_System_with_Plant_Disease_Identification.pdf)
+- You can view the research paper directly here : [View Paper](https://github.com/SUDARSHANJADHAV2/Mega-Project/blob/main/ResearchPaper.pdf)
 
 
 ## Features
